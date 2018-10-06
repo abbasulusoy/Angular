@@ -1,7 +1,14 @@
 package demo;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.journaldev.json.gson.Step1;
+import com.journaldev.json.model.Employee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Exercise {
 
@@ -91,12 +98,11 @@ public class Exercise {
     }
 
     private long addTwoNumbers(String json) {
-        String arrayString[] = json.split(":");
-        String num1Array[] = arrayString[1].split(",");
-        long num1 = Long.parseLong(num1Array[0].trim());
-        String num2Array[] = arrayString[2].split("}");
-        long num2 = Long.parseLong(num2Array[0].trim());
-        return num1 + num2;
+        // Get Gson object
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        // parse json string to object
+        Step1 step1 = gson.fromJson(json, Step1.class);
+        return step1.a + step1.b;
     }
 
     private String getUrl(String request) {
@@ -110,10 +116,12 @@ public class Exercise {
 
     private long getInverseNumber(String json) {
 
-        String[] arraySting = json.split(":");
-        arraySting = arraySting[1].split("}");
-        String stringNum = arraySting[0].trim();
-        long num = Long.parseLong(stringNum);
+        // Get Gson object
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        // parse json string to object
+        Step1 step1 = gson.fromJson(json, Step1.class);
+        long num = Long.parseLong(step1.getNumber());
         return -num;
     }
 }
+
